@@ -20,13 +20,13 @@ app.set('views', path.join(__dirname,'views'));
 app.set('view engine','ejs');
 app.use(expressSession({
   store,
-  esave: true,
+  resave: true,
   saveUninitialized: true,
   name:config.sessionKey,
   secret:config.sessionSecret
 }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extend:true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -49,6 +49,7 @@ consign({})
 .include('models')
 .then('controllers')
 .then('routes')
+.then('events')
 .into(app,io);
 
 
